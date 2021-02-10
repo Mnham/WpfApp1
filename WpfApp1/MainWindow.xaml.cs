@@ -21,6 +21,7 @@ namespace WpfApp1
         int selectedInt;
         int counter;
         bool checkBoxIsChecked;
+        B selectedB;
 
         public MainWindowVM()
         {
@@ -32,12 +33,14 @@ namespace WpfApp1
         public ObservableCollection<B> CollectionB { get; } = new();
         public static ObservableCollection<C> CollectionC { get; } = new();
         public A SelectedA { get => selectedA; set => Set(ref selectedA, value); }
+        public B SelectedB { get => selectedB; set => Set(ref selectedB, value); }
         public int SelectedInt { get => selectedInt; set => Set(ref selectedInt, value); }
         public int Counter { get => counter; set => Set(ref counter, value); }
         public bool CheckBoxIsChecked { get => checkBoxIsChecked; set => Set(ref checkBoxIsChecked, value); }
 
         public RelayCommand AddB => new(_ => CollectionB.Add(new(this)));
         public RelayCommand AddC => new(_ => CollectionC.Add(new()));
+        public RelayCommand AddD => new(_ => SelectedB.CollectionD.Add(new(SelectedB)), _ => SelectedB != null);
         public RelayCommand ClickCheckBox => new(_ => Counter++);
     }
 
@@ -50,8 +53,12 @@ namespace WpfApp1
     public class B : NotifyPropertyChanged
     {
         readonly MainWindowVM mainWindowVM;
+        int myProperty;
 
         public B(MainWindowVM mainWindowVM) => this.mainWindowVM = mainWindowVM;
+
+        public int MyProperty { get => myProperty; set => Set(ref myProperty, value); }
+        public ObservableCollection<D> CollectionD { get; set; } = new();
 
         public RelayCommand Remove => new(_ => mainWindowVM.CollectionB.Remove(this));
     }
@@ -59,6 +66,17 @@ namespace WpfApp1
     public class C : NotifyPropertyChanged
     {
         public RelayCommand Remove => new(_ => MainWindowVM.CollectionC.Remove(this));
+    }
+
+    public class D : NotifyPropertyChanged
+    {
+        readonly B b;
+
+        public D(B b) => this.b = b;
+
+        public int MyProperty { get; set; }
+
+        public RelayCommand Remove => new(_ => b.CollectionD.Remove(this));
     }
 
     public class Provider

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         d:DataContext="{d:DesignInstance Type=local:MainWindowVM}"
-        Title="MainWindow">
+        d:DesignHeight="500" d:DesignWidth="1500">
     <Window.Resources>
 
         <ObjectDataProvider x:Key="ObjectsProvider" MethodName="GetObjects" ObjectType="{x:Type local:Provider}"/>
@@ -44,11 +44,18 @@
         <StackPanel Margin="8 0">
 
             <TextBlock Text="ListBox Add/Remove Item"/>
-            <Button Command="{Binding AddB}" Content="Добавить"/>
-            <ListBox ItemsSource="{Binding CollectionB}">
+            <Button Command="{Binding AddB}" Content="AddB"/>
+            <ListBox ItemsSource="{Binding CollectionB}" HorizontalContentAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type local:B}">
-                        <Button Command="{Binding Remove}" Content="X"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding MyProperty}"/>
+                            <Button Grid.Column="1" Command="{Binding Remove}" Content="X" Width="20"/>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -57,11 +64,11 @@
         <StackPanel Margin="8 0">
 
             <TextBlock Text="ListBox Add/Remove Item"/>
-            <Button Command="{Binding AddC}" Content="Добавить"/>
-            <ListBox ItemsSource="{Binding CollectionC}">
+            <Button Command="{Binding AddC}" Content="AddC"/>
+            <ListBox ItemsSource="{Binding CollectionC}" HorizontalContentAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type local:C}">
-                        <Button Command="{Binding Remove}" Content="X"/>
+                        <Button Command="{Binding Remove}" Content="X" Width="20" HorizontalAlignment="Right"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -80,6 +87,56 @@
             <TextBlock Text="{Binding CheckBoxIsChecked}"/>
             <TextBlock Text="{Binding IsChecked, ElementName=CheckBox}"/>
             <CheckBox x:Name="CheckBox" IsChecked="{Binding CheckBoxIsChecked}"/>
+
+        </StackPanel>
+        <StackPanel Margin="8 0">
+
+            <TextBlock Text="Subcollection"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <Button Command="{Binding AddB}" Content="AddB"/>
+                    <DataGrid ItemsSource="{Binding CollectionB}" SelectedItem="{Binding SelectedB}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="MyProperty" Binding="{Binding MyProperty}"/>
+
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Grid.Column="1" Command="{Binding Remove}" Content="X" Width="20"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <Button Command="{Binding AddD}" Content="AddD"/>
+                    <DataGrid ItemsSource="{Binding SelectedB.CollectionD}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="MyProperty" Binding="{Binding MyProperty}"/>
+
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Grid.Column="1" Command="{Binding Remove}" Content="X" Width="20"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+
+            </Grid>
 
         </StackPanel>
     </StackPanel>
