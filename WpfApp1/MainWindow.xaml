@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        d:DataContext="{d:DesignInstance Type=local:MainWindowVM}"
-        d:DesignHeight="500" d:DesignWidth="1500">
+        d:DataContext="{d:DesignInstance Type=local:MainWindowVM}">
     <Window.Resources>
 
         <ObjectDataProvider x:Key="ObjectsProvider" MethodName="GetObjects" ObjectType="{x:Type local:Provider}"/>
@@ -24,9 +23,10 @@
         <StackPanel Margin="8 0">
 
             <TextBlock Text="ComboBox ItemTemplate"/>
-            <ComboBox ItemsSource="{Binding CollectionA}" SelectedItem="{Binding SelectedA}"/>
+            <ComboBox ItemsSource="{Binding CollectionA}" SelectedItem="{Binding SelectedA}" Margin="0 0 0 16"/>
             <TextBlock Text="{Binding SelectedA.MyProperty1}"/>
             <TextBlock Text="{Binding SelectedA.MyProperty2}"/>
+            <ContentPresenter Content="{Binding SelectedA}" Margin="0 16 0 0"/>
 
         </StackPanel>
         <StackPanel Margin="8 0">
